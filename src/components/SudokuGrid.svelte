@@ -1,20 +1,8 @@
 <script>
   import Cell from "./Cell.svelte";
-  export let grid = [
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  ];
-  export let selectedCell = {
-    i: 5,
-    j: 7
-  };
+  export let grid;
+  export let selectedCell;
+  export let gridEvaluation;
 
   const sameCube = (firstCell, secondCell) => {
       let i1 = ( firstCell.i - (firstCell.i % 3) ) / 3;
@@ -45,7 +33,8 @@
             {i}
             {j}
             selected={i === selectedCell.i && j === selectedCell.j}
-            pseudoSelected={i === selectedCell.i || j === selectedCell.j || sameCube({i,j}, selectedCell)} 
+            pseudoSelected={i === selectedCell.i || j === selectedCell.j || sameCube({i,j}, selectedCell)}
+            valid={gridEvaluation[i][j]}
             on:select/>
         </td>
       {/each}

@@ -6,6 +6,7 @@
   export let j;
   export let selected = false;
   export let pseudoSelected = false;
+  export let valid = true;
 
   const topBorder = i % 3 === 0;
   const bottomBorder = i === 8;
@@ -24,8 +25,8 @@
 
 <style>
   div {
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 2rem;
+    width: 2rem;
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 1px / 1px;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -55,6 +56,10 @@
   .selected {
     background-color: cadetblue;
   }
+  .wrong {
+    color: rgb(90, 2, 2);
+    background-color: rgba(160, 95, 95, 0.493);
+  }
 </style>
 
 <div
@@ -63,7 +68,8 @@
   {leftBorder ? 'left-border' : ''}
   {rightBorder ? 'right-border' : ''}
   {pseudoSelected ? 'pseudo-selected' : ''}
-  {selected ? 'selected' : ''}"
+  {selected ? 'selected' : ''}
+  {valid ? '' : 'wrong'}"
   on:click={selectCell}>
   {value || ''}
 </div>
