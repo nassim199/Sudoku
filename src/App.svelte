@@ -106,7 +106,7 @@
     <Numpad on:selectNumber={e => selectNumber(e.detail.j)}/>
   </div>
   <div id="timer">
-    <Timer bind:startTimer={start}/>
+    <Timer startTimer={start}/>
     {#if start}
     <button on:click={() => start = false}> Pause </button>
     {/if}
