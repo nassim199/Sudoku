@@ -2,7 +2,7 @@
   import SudokuGrid from "./components/SudokuGrid.svelte";
   import Numpad from "./components/Numpad.svelte";
   import Timer from "./components/Timer.svelte";
-  
+
   import { game, solution } from "./Sudoku games/sudoku_games.js";
 
   let message = "Hello";
@@ -18,25 +18,23 @@
     };
   }
 
-  // let gridEvaluation = [
-  //     [true, true, true, true, true, true, true, true, true],
-  //     [true, true, true, true, true, true, true, true, true],
-  //     [true, true, true, true, true, true, true, true, true],
-  //     [true, true, true, true, true, true, true, true, true],
-  //     [true, true, true, true, true, true, true, true, true],
-  //     [true, true, true, true, true, true, true, true, true],
-  //     [true, true, true, true, true, true, true, true, true],
-  //     [true, true, true, true, true, true, true, true, true],
-  //     [true, true, true, true, true, true, true, true, true]
-  //   ];
+  let time = {
+    s: 0,
+    m: 0,
+    h: 0
+  };
+
   let gridEvaluation = Array(9).fill(Array(9).fill(true));
 
   function selectNumber(i) {
+    if (stop) 
+      return;
 
     if (i >= 48 && i <= 57) {
       grid[selectedCell.i][selectedCell.j] = i - 48;
-        gridEvaluation[selectedCell.i][selectedCell.j] = 
-        grid[selectedCell.i][selectedCell.j] === solution[selectedCell.i][selectedCell.j];
+      gridEvaluation[selectedCell.i][selectedCell.j] =
+        grid[selectedCell.i][selectedCell.j] ===
+        solution[selectedCell.i][selectedCell.j];
     } else if (i === 32) {
       grid[selectedCell.i][selectedCell.j] = 0;
       gridEvaluation[selectedCell.i][selectedCell.j] = true;
@@ -61,7 +59,7 @@
   });
 
   let start = false;
-
+  let stop = false;
 </script>
 
 <style>
@@ -85,30 +83,42 @@
     /* text-align: center; */
   }
 
-  #grid::after {
-    width: 50vw;
-    height: 50vh;
-    background-color: antiquewhite;
-    content: 'Continue';
+  .blurred-grid {
+    background-color: rgba(185, 228, 248, 0.555);
   }
 </style>
 
 <main>
   <h1>{message}!</h1>
-  <div id="grid">
-  {#if start}
-    <SudokuGrid {grid} {selectedCell} gridEvaluation={gridEvaluation} on:select={selectCell} />
-  {:else} 
-    <button on:click={() => start = true}>Start Playing</button>
-  {/if}
+  <div class={stop ? 'blurred-grid' : ''}>
+    {#if start || stop}
+      <SudokuGrid
+        {grid}
+        {selectedCell}
+        {gridEvaluation}
+        on:select={selectCell} />
+    {:else}
+      <button on:click={() => (start = true)}>Start Playing</button>
+    {/if}
   </div>
   <div>
-    <Numpad on:selectNumber={e => selectNumber(e.detail.j)}/>
+    <Numpad on:selectNumber={e => selectNumber(e.detail.j)} />
   </div>
   <div id="timer">
-    <Timer startTimer={start}/>
     {#if start}
-    <button on:click={() => start = false}> Pause </button>
+      <Timer startTimer={start} {time} on:time={(e) => time = e.detail.time}/>
+      <button
+        on:click={() => {
+          start = false;
+          stop = true;
+        }}>
+        Pause
+      </button>
+    {:else}
+      <div>{time.h} : {time.m} : {time.s}</div>
+      {#if stop}
+        <button on:click={() => {stop = false; start = true}} > Resume </button> 
+      {/if}
     {/if}
   </div>
 </main>
