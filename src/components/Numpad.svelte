@@ -23,11 +23,17 @@ li {
   display: table-cell;
   height: 2rem;
   width: 2rem;
-  border: 1px solid #000;
+  border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 3px / 2px;
   text-align: center;
   vertical-align: middle;
   font-size: 1.2rem;
+}
+
+li:hover {
+  border-color: #fff;
+  color: #fff;
+  background-color: rgba(22, 22, 22, 0.8);
 }
 </style>
 
@@ -35,6 +41,6 @@ li {
     {#each numbers as number}
       <li on:click={e => selectNumber(number)}>{number}</li>
     {/each}
-    <li on:click={e => selectNumber(0)}>x</li>
+    <li on:click|stopPropagation={e => selectNumber(0)}>x</li>
 </ul>
 

@@ -6,7 +6,8 @@
   export let j;
   export let selected = false;
   export let pseudoSelected = false;
-  export let valid = true;
+  export let valid;
+  export let immutable = false;
 
   const topBorder = i % 3 === 0;
   const bottomBorder = i === 8;
@@ -27,8 +28,11 @@
   div {
     height: 2rem;
     width: 2rem;
-    border: 1px solid rgba(0, 0, 0, 0.5);
+    border: 0.5px solid rgba(0, 0, 0, 0.3);
+    /*TODO: 1px border for mobiles*/
     border-radius: 1px / 1px;
+    color: rgb(0, 81, 173);
+    font-weight: 500;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -50,15 +54,18 @@
   .right-border {
     border-right: 1.4px solid rgba(0, 0, 0, 0.7);
   }
+  .immutable {
+    color: rgb(59, 59, 59);
+  }
   .pseudo-selected {
-    background-color: rgba(95, 158, 160, 0.596);
+    background-color: rgba(85, 128, 141, 0.24);
   }
   .selected {
-    background-color: cadetblue;
+    background-color: rgba(122, 189, 252, 0.699);
   }
   .wrong {
-    color: rgb(90, 2, 2);
-    background-color: rgba(160, 95, 95, 0.493);
+    color: rgb(46, 17, 12);
+    background-color: rgba(209, 155, 155, 0.39);
   }
 </style>
 
@@ -69,7 +76,8 @@
   {rightBorder ? 'right-border' : ''}
   {pseudoSelected ? 'pseudo-selected' : ''}
   {selected ? 'selected' : ''}
+  {immutable ? 'immutable' : ''}
   {valid ? '' : 'wrong'}"
-  on:click={selectCell}>
+  on:click|stopPropagation={selectCell}>
   {value || ''}
 </div>

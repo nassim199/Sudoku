@@ -3,6 +3,7 @@
   export let grid;
   export let selectedCell;
   export let gridEvaluation;
+  export let immutable;
 
   const sameCube = (firstCell, secondCell) => {
       let i1 = ( firstCell.i - (firstCell.i % 3) ) / 3;
@@ -35,6 +36,7 @@
             selected={i === selectedCell.i && j === selectedCell.j}
             pseudoSelected={i === selectedCell.i || j === selectedCell.j || sameCube({i,j}, selectedCell)}
             valid={gridEvaluation[i][j]}
+            immutable={immutable[i][j]}
             on:select/>
         </td>
       {/each}
